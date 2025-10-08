@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Moocs Sharp
 // @namespace    http://tampermonkey.net/
-// @version      3.4
+// @version      3.5
 // @description  INIAD Moocsをより便利に、楽しくするためのユーザースクリプト
 // @author       Yuta Takahashi
 // @match        https://moocs.iniad.org/*
@@ -26,16 +26,16 @@
     const GLOBAL_STYLE_RULES = `
   /* --- デスクトップ向けスタイル (900px以上) --- */
   @media (min-width: 900px) {
-    .content {
+    .ms-style-enabled .content {
       max-width: 98%;
       margin-left: auto;
       margin-right: auto;
     }
-    .vertical {
+    .ms-layout-enabled .vertical {
       display: flex;
     }
 
-    div.panel.pad-form.problem-container {
+    .ms-style-enabled div.panel.pad-form.problem-container {
       max-height: 65vh;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
@@ -44,14 +44,14 @@
   }
 
   /* --- 共通スタイル --- */
-  div.vertical {
+  .ms-layout-enabled div.vertical {
     border: 1px solid #ddd;
     position: relative;
     margin-left: auto;
     margin-right: auto;
     padding: 1px;
   }
-  div.problem-contentpage {
+  .ms-layout-enabled div.problem-contentpage {
     position: relative;
   }
 
@@ -76,7 +76,7 @@
     }
   }
 
-  button.btn-success.submit-answer {
+  .ms-rainbow-enabled button.btn-success.submit-answer {
     position: fixed;
     bottom: 70px;
     display: block;
@@ -95,56 +95,56 @@
     }
   }
 
-  nav.navbar.navbar-static-top,
-  a.logo,
-  a.btn.btn-primary {
+  .ms-rainbow-enabled nav.navbar.navbar-static-top,
+  .ms-rainbow-enabled a.logo,
+  .ms-rainbow-enabled a.btn.btn-primary {
     animation: bg-color 20s infinite;
   }
-  aside.main-sidebar {
+  .ms-rainbow-enabled aside.main-sidebar {
     animation: bg-color 20s infinite;
   }
-  footer.main-footer {
+  .ms-rainbow-enabled footer.main-footer {
     animation: bg-color 20s infinite;
   }
-  a.btn.btn-success.drive-search {
+  .ms-rainbow-enabled a.btn.btn-success.drive-search {
     animation: bg-color 20s infinite;
   }
-  a.btn.btn-success {
+  .ms-rainbow-enabled a.btn.btn-success {
     animation: bg-color 20s infinite;
   }
-  span.logo-mini {
+  .ms-rainbow-enabled span.logo-mini {
     animation: rotation 5s infinite;
   }
 
-  div.pad-block {
+  .ms-style-enabled div.pad-block {
     overflow: auto;
   }
 
 
-  ul.pagination.pagination-lg {
+  .ms-style-enabled ul.pagination.pagination-lg {
     margin: 10px;
   }
 
-  h2.clearfix {
+  .ms-style-enabled h2.clearfix {
     margin: 10px;
   }
 
-  section.content.container-fluid {
+  .ms-style-enabled section.content.container-fluid {
     padding-top: 5px;
   }
 
-  .flex-divider {
+  .ms-layout-enabled .flex-divider {
     flex: 0 0 10px;
     background-color: #e0e0e0;
     cursor: col-resize;
     transition: background-color 0.2s;
   }
 
-  .flex-divider:hover {
+  .ms-layout-enabled .flex-divider:hover {
     background-color: #c0c0c0;
   }
 
-  .container-resize-handle {
+  .ms-layout-enabled .container-resize-handle {
     position: absolute;
     width: 10px;
     height: 100%;
@@ -155,43 +155,167 @@
     transition: background-color 0.2s;
   }
 
-  .container-resize-handle:hover {
+  .ms-layout-enabled .container-resize-handle:hover {
     background-color: rgba(0, 100, 255, 0.5);
   }
 
-  .container-resize-handle.right {
+  .ms-layout-enabled .container-resize-handle.right {
     right: 0;
   }
 
   /* --- スマートフォン向けスタイル (767px以下) --- */
   @media (max-width: 767px) {
-    .content {
+    .ms-style-enabled .content {
       max-width: 100% !important;
       padding-left: 10px !important;
       padding-right: 10px !important;
     }
 
-    .vertical {
+    .ms-layout-enabled .vertical {
       display: block !important;
       width: 100% !important;
       border: none !important;
       padding: 0 !important;
     }
 
-    .vertical > .pad-block {
+    .ms-layout-enabled .vertical > .pad-block {
       flex: none !important;
       width: 100% !important;
       margin-bottom: 15px;
     }
 
-    .vertical > .pad-block:last-child {
+    .ms-layout-enabled .vertical > .pad-block:last-child {
       margin-bottom: 0;
     }
 
-    .flex-divider,
-    .container-resize-handle {
+    .ms-layout-enabled .flex-divider,
+    .ms-layout-enabled .container-resize-handle {
       display: none !important;
     }
+  }
+
+  /* --- Settings UI --- */
+  .ms-settings-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      z-index: 10000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+  }
+  .ms-settings-button:hover {
+      transform: scale(1.1);
+  }
+  .ms-settings-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 10001;
+      display: none; /* Hidden by default */
+      justify-content: center;
+      align-items: center;
+  }
+  .ms-settings-modal {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      color: #333;
+  }
+  .ms-settings-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+  }
+  .ms-settings-modal-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin: 0;
+  }
+  .ms-settings-close-button {
+      border: none;
+      background: transparent;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
+  }
+  .ms-settings-modal-body {
+      /* for future content */
+  }
+
+  /* --- Settings UI Toggle Switch --- */
+  .ms-settings-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+  }
+  .ms-settings-row:last-child {
+      border-bottom: none;
+  }
+  .ms-settings-label {
+      font-size: 1rem;
+  }
+  .ms-toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+      flex-shrink: 0;
+  }
+  .ms-toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+  }
+  .ms-toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 28px;
+  }
+  .ms-toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+  }
+  input:checked + .ms-toggle-slider {
+      background-color: #28a745;
+  }
+  input:checked + .ms-toggle-slider:before {
+      transform: translateX(22px);
   }
 `;
 
@@ -206,15 +330,177 @@
     const FLEX_MIN_WIDTH = 50;
     const IFRAMES_SELECTOR = 'iframe';
 
+    // --- 設定管理 ---
+    const SETTINGS_KEY = 'moocsSharpSettings';
+    const DEFAULT_SETTINGS = {
+        enableRainbowAnimation: true,
+        enableLayoutEnhancements: true,
+        enableCustomAlerts: true,
+        enableStyleImprovements: true,
+    };
+    let currentSettings = { ...DEFAULT_SETTINGS };
+
+    function loadSettings() {
+        try {
+            const savedSettings = localStorage.getItem(SETTINGS_KEY);
+            if (savedSettings) {
+                const parsed = JSON.parse(savedSettings);
+                currentSettings = { ...DEFAULT_SETTINGS, ...parsed };
+            }
+        } catch (e) {
+            console.error('Moocs Sharp: 設定の読み込みに失敗しました。', e);
+            currentSettings = { ...DEFAULT_SETTINGS };
+        }
+    }
+
+    function saveSettings() {
+        try {
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(currentSettings));
+        } catch (e) {
+            console.error('Moocs Sharp: 設定の保存に失敗しました。', e);
+        }
+    }
+
+
     main().catch((error) => {
         console.error('Moocs Sharp の初期化中に問題が発生しました。', error);
     });
 
     async function main() {
-        overrideWindowAlert();
+        loadSettings();
+        applyBodyClasses();
+        initializeSettingsUI();
+
+        if (currentSettings.enableCustomAlerts) {
+            overrideWindowAlert();
+        }
+
         injectGlobalStyles(GLOBAL_STYLE_RULES);
-        preventHtmlScrollOnDesktop();
-        await initializeLayoutEnhancements();
+
+        if (currentSettings.enableStyleImprovements) {
+            preventHtmlScrollOnDesktop();
+        }
+
+        if (currentSettings.enableLayoutEnhancements) {
+            await initializeLayoutEnhancements();
+        }
+    }
+
+    function applyBodyClasses() {
+        if (!document.body) {
+            document.addEventListener('DOMContentLoaded', applyBodyClasses, { once: true });
+            return;
+        }
+        const classMap = {
+            'ms-rainbow-enabled': currentSettings.enableRainbowAnimation,
+            'ms-layout-enabled': currentSettings.enableLayoutEnhancements,
+            'ms-style-enabled': currentSettings.enableStyleImprovements,
+        };
+        for (const [className, isEnabled] of Object.entries(classMap)) {
+            document.body.classList.toggle(className, isEnabled);
+        }
+    }
+
+    function initializeSettingsUI() {
+        // Create settings button
+        const settingsButton = document.createElement('button');
+        settingsButton.className = 'ms-settings-button';
+        settingsButton.innerHTML = '&#x2699;'; // Gear icon
+        settingsButton.setAttribute('aria-label', 'Moocs Sharp 設定');
+        document.body.appendChild(settingsButton);
+
+        // Create modal overlay
+        const modalOverlay = document.createElement('div');
+        modalOverlay.className = 'ms-settings-modal-overlay';
+        document.body.appendChild(modalOverlay);
+
+        // Create modal dialog
+        const modal = document.createElement('div');
+        modal.className = 'ms-settings-modal';
+        modalOverlay.appendChild(modal);
+
+        // Modal header
+        const modalHeader = document.createElement('div');
+        modalHeader.className = 'ms-settings-modal-header';
+        modal.appendChild(modalHeader);
+
+        const modalTitle = document.createElement('h5');
+        modalTitle.className = 'ms-settings-modal-title';
+        modalTitle.textContent = 'Moocs Sharp 設定';
+        modalHeader.appendChild(modalTitle);
+
+        const closeButton = document.createElement('button');
+        closeButton.className = 'ms-settings-close-button';
+        closeButton.innerHTML = '&times;';
+        closeButton.setAttribute('aria-label', '閉じる');
+        modalHeader.appendChild(closeButton);
+
+        // Modal body
+        const modalBody = document.createElement('div');
+        modalBody.className = 'ms-settings-modal-body';
+        modal.appendChild(modalBody);
+
+        // --- Settings Rows ---
+        const settingsConfig = [
+            { key: 'enableRainbowAnimation', label: 'レインボーアニメーション' },
+            { key: 'enableLayoutEnhancements', label: 'レイアウト調整機能' },
+            { key: 'enableCustomAlerts', label: 'カスタムアラート機能' },
+            { key: 'enableStyleImprovements', label: 'その他スタイル改善' }
+        ];
+
+        function createSettingRow(key, label) {
+            const row = document.createElement('div');
+            row.className = 'ms-settings-row';
+
+            const labelEl = document.createElement('span');
+            labelEl.className = 'ms-settings-label';
+            labelEl.textContent = label;
+            row.appendChild(labelEl);
+
+            const switchEl = document.createElement('label');
+            switchEl.className = 'ms-toggle-switch';
+
+            const inputEl = document.createElement('input');
+            inputEl.type = 'checkbox';
+            inputEl.checked = currentSettings[key];
+            inputEl.addEventListener('change', () => {
+                currentSettings[key] = inputEl.checked;
+                saveSettings();
+                // Reload to apply changes
+                window.location.reload();
+            });
+
+            const sliderEl = document.createElement('span');
+            sliderEl.className = 'ms-toggle-slider';
+
+            switchEl.appendChild(inputEl);
+            switchEl.appendChild(sliderEl);
+            row.appendChild(switchEl);
+
+            return row;
+        }
+
+        settingsConfig.forEach(setting => {
+            const row = createSettingRow(setting.key, setting.label);
+            modalBody.appendChild(row);
+        });
+
+        // --- Event Listeners ---
+        function openModal() {
+            modalOverlay.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modalOverlay.style.display = 'none';
+        }
+
+        settingsButton.addEventListener('click', openModal);
+        closeButton.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (event) => {
+            if (event.target === modalOverlay) {
+                closeModal();
+            }
+        });
     }
 
     function overrideWindowAlert() {
