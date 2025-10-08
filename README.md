@@ -1,7 +1,53 @@
-# INIAD-Sharp
+# Moocs Sharp
 
-Tampermonkey user script that enhances INIAD MOOCS with alert banners and layout tweaks.
+INIAD Moocs をより便利に、そして楽しく利用するためのユーザースクリプトです。
 
-## Script
+## ✨ 主な機能
 
-- `moocs-sharp.js` — combined script that replaces the browser alert with non-blocking banners and adds flexible layout controls.
+Moocs Sharp は、学習サイトの使いやすさを向上させるための様々な機能を提供します。
+
+*   **レイアウト調整機能**
+    *   講義動画と問題欄を横に並べて表示できます。
+    *   境界線をドラッグすることで、それぞれの幅を自由に変更でき、自分の学習スタイルに合わせられます。
+
+*   **スタイル改善**
+    *   コンテンツの表示領域を広げ、窮屈な印象をなくします。
+    *   問題の表示エリアにスクロールバーを追加し、長い問題でもページ全体のレイアウトを崩さずに閲覧できます。
+
+*   **カスタムアラート**
+    *   「保存しました」などの標準アラートを、見やすくスタイリッシュな通知に置き換えます。通知は数秒で自動的に消えます。
+
+*   **レインボーアニメーション🌈**
+    *   学習をもっと楽しく！ナビゲーションバーやボタンが虹色に輝くアニメーションを追加します。気分転換したいときにどうぞ。（この機能は設定でオフにできます）
+
+*   **機能設定**
+    *   画面左下に表示される歯車アイコン⚙️から設定パネルを開き、上記の各機能を個別にオン/オフできます。
+
+## 🚀 インストール方法
+
+このスクリプトを利用するには、まずお使いのブラウザに**ユーザースクリプトマネージャー**という拡張機能をインストールする必要があります。
+
+### 1. ユーザースクリプトマネージャーを導入する
+
+お使いのブラウザに合った拡張機能をインストールしてください。
+
+*   **Google Chrome**
+    1.  [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) にアクセスします。
+    2.  「Chromeに追加」ボタンを押して、拡張機能をインストールします。
+
+*   **Mozilla Firefox**
+    1.  [Tampermonkey](https://addons.mozilla.org/ja/firefox/addon/tampermonkey/) にアクセスします。
+    2.  「Firefoxへ追加」ボタンを押して、拡張機能をインストールします。
+
+*   **Safari**
+    1.  App Storeで [Userscripts](https://apps.apple.com/jp/app/userscripts/id1463298887) をインストールします。
+    2.  Safariの「設定」→「機能拡張」を開き、「Userscripts」を有効にします。
+
+### 2. Moocs Sharp をインストールする
+
+ユーザースクリプトマネージャーの準備ができたら、リポジトリにある `moocs-sharp.js` ファイルを開き、`Raw`ボタンを押して表示されるURLからインストールしてください。
+
+## 🔧 設定方法
+
+インストール後、Moocsのページを開くと画面左下に歯車アイコン⚙️が表示されます。
+これをクリックすると設定パネルが開き、各機能のオン/オフを切り替えることができます。設定は自動的に保存され、ページをリロードすると反映されます。
