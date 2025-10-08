@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Moocs Sharp
 // @namespace    http://tampermonkey.net/
-// @version      3.2
+// @version      3.3
 // @description  INIAD Moocsをより便利に、楽しくするためのユーザースクリプト
 // @author       Yuta Takahashi
 // @match        https://moocs.iniad.org/*
@@ -36,7 +36,7 @@
     }
 
     div.panel.pad-form.problem-container {
-      max-height: 100vh;
+      max-height: 65vh;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
       box-sizing: border-box;
