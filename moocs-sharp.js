@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Moocs Sharp
 // @namespace    http://tampermonkey.net/
-// @version      3.1
+// @version      3.2
 // @description  INIAD Moocsをより便利に、楽しくするためのユーザースクリプト
 // @author       Yuta Takahashi
 // @match        https://moocs.iniad.org/*
