@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Moocs Sharp
 // @namespace    http://tampermonkey.net/
-// @version      3.0
+// @version      3.1
 // @description  INIAD Moocsをより便利に、楽しくするためのユーザースクリプト
 // @author       Yuta Takahashi
 // @match        https://moocs.iniad.org/*
@@ -76,7 +76,7 @@
     margin-left: auto;
     margin-bottom: 10px;
     z-index: 1000;
-    animation: bg-color 10s infinite;
+    animation: bg-color 20s infinite;
   }
 
   @keyframes rotation {
@@ -91,15 +91,20 @@
   nav.navbar.navbar-static-top,
   a.logo,
   a.btn.btn-primary {
-    animation: bg-color 10s infinite;
+    animation: bg-color 20s infinite;
   }
   aside.main-sidebar {
-    animation: bg-color 10s infinite;
+    animation: bg-color 20s infinite;
   }
   footer.main-footer {
-    animation: bg-color 10s infinite;
+    animation: bg-color 20s infinite;
   }
-
+  a.btn.btn-success.drive-search {
+    animation: bg-color 20s infinite;
+  }
+  a.btn.btn-success {
+    animation: bg-color 20s infinite;
+  }
   span.logo-mini {
     animation: rotation 5s infinite;
   }
