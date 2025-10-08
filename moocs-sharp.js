@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Moocs Sharp
 // @namespace    http://tampermonkey.net/
-// @version      3.3
+// @version      3.4
 // @description  INIAD Moocsをより便利に、楽しくするためのユーザースクリプト
 // @author       Yuta Takahashi
 // @match        https://moocs.iniad.org/*
@@ -213,6 +213,7 @@
     async function main() {
         overrideWindowAlert();
         injectGlobalStyles(GLOBAL_STYLE_RULES);
+        preventHtmlScrollOnDesktop();
         await initializeLayoutEnhancements();
     }
 
@@ -618,6 +619,50 @@
         style.type = 'text/css';
         style.textContent = css;
         document.head.appendChild(style);
+    }
+
+    // Prevent the root html/body from scrolling when on desktop-sized screens.
+    // This keeps scrolling inside the internal panels (pad-blocks) on wide layouts.
+    function preventHtmlScrollOnDesktop() {
+        try {
+            const mq = window.matchMedia('(min-width: 900px)');
+
+            const apply = (isDesktop) => {
+                const html = document.documentElement;
+                const body = document.body;
+                if (!html) return;
+
+                if (isDesktop) {
+                    // Prevent page-level scrolling so inner containers handle scroll.
+                    html.style.overflow = 'hidden';
+                    html.style.height = '100%';
+                    if (body) {
+                        body.style.overflow = 'hidden';
+                        body.style.height = '100%';
+                    }
+                } else {
+                    // Restore defaults on smaller screens.
+                    html.style.overflow = '';
+                    html.style.height = '';
+                    if (body) {
+                        body.style.overflow = '';
+                        body.style.height = '';
+                    }
+                }
+            };
+
+            // Initial apply and listen for changes (resize / orientation)
+            apply(mq.matches);
+            if (typeof mq.addEventListener === 'function') {
+                mq.addEventListener('change', (ev) => apply(ev.matches));
+            } else if (typeof mq.addListener === 'function') {
+                // Older browsers
+                mq.addListener((ev) => apply(ev.matches));
+            }
+        } catch (e) {
+            // If anything goes wrong, don't break the rest of the script.
+            console.warn('preventHtmlScrollOnDesktop: failed to apply', e);
+        }
     }
 
     function applyStyles(element, styles) {
