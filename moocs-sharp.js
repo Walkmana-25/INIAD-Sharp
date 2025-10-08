@@ -34,6 +34,13 @@
     .vertical {
       display: flex;
     }
+
+    div.panel.pad-form.problem-container {
+      max-height: 100vh;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+    }
   }
 
   /* --- 共通スタイル --- */
@@ -112,6 +119,7 @@
   div.pad-block {
     overflow: auto;
   }
+
 
   ul.pagination.pagination-lg {
     margin: 10px;
