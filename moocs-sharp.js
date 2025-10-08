@@ -93,6 +93,12 @@
   a.btn.btn-primary {
     animation: bg-color 10s infinite;
   }
+  aside.main-sidebar {
+    animation: bg-color 10s infinite;
+  }
+  footer.main-footer {
+    animation: bg-color 10s infinite;
+  }
 
   span.logo-mini {
     animation: rotation 5s infinite;
