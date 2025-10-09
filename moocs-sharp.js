@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Moocs Sharp
 // @namespace    http://tampermonkey.net/
-// @version      3.7
+// @version      3.10
 // @description  INIAD Moocsをより便利に、楽しくするためのユーザースクリプト
 // @author       Yuta Takahashi
 // @match        https://moocs.iniad.org/*
@@ -131,6 +131,28 @@
 
   .ms-style-enabled section.content.container-fluid {
     padding-top: 5px;
+    max-height: 70vh;
+  }
+  
+  .ms-layout-enabled ul.pager {
+    margin: 0px;
+  }
+
+  footer.main-footer {
+      display: none !important;
+  }
+
+  ul.pager {
+      position: fixed !important;
+      bottom: 0 !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 10px !important;
+      background-color: #f8f9fa !important;
+      border-top: 1px solid #dee2e6 !important;
+      z-index: 1000 !important;
+      display: flex;
+      justify-content: space-between;
   }
 
   .ms-layout-enabled .flex-divider {
@@ -946,6 +968,9 @@
     // This keeps scrolling inside the internal panels (pad-blocks) on wide layouts.
     function preventHtmlScrollOnDesktop() {
         try {
+            if (window.location.href.startsWith('https://moocs.iniad.org/courses')) {
+                return;
+            }
             const mq = window.matchMedia('(min-width: 900px)');
 
             const apply = (isDesktop) => {
