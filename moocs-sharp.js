@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Moocs Sharp
 // @namespace    http://tampermonkey.net/
-// @version      3.9
+// @version      3.10
 // @description  INIAD Moocsをより便利に、楽しくするためのユーザースクリプト
 // @author       Yuta Takahashi
 // @match        https://moocs.iniad.org/*
@@ -282,7 +282,29 @@
       line-height: 1;
   }
   .ms-settings-modal-body {
-      /* for future content */
+      margin-bottom: 20px;
+  }
+
+  .ms-settings-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 15px;
+      border-top: 1px solid #dee2e6;
+  }
+
+  .ms-settings-apply-button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+  }
+
+  .ms-settings-apply-button:hover {
+      background-color: #218838;
   }
 
   /* --- Settings UI Toggle Switch --- */
@@ -458,6 +480,7 @@
         modalHeader.appendChild(closeButton);
 
         // Modal body
+        // Modal body
         const modalBody = document.createElement('div');
         modalBody.className = 'ms-settings-modal-body';
         modal.appendChild(modalBody);
@@ -487,9 +510,6 @@
             inputEl.checked = currentSettings[key];
             inputEl.addEventListener('change', () => {
                 currentSettings[key] = inputEl.checked;
-                saveSettings();
-                // Reload to apply changes
-                window.location.reload();
             });
 
             const sliderEl = document.createElement('span');
@@ -507,7 +527,22 @@
             modalBody.appendChild(row);
         });
 
+        // Modal Footer
+        const modalFooter = document.createElement('div');
+        modalFooter.className = 'ms-settings-modal-footer';
+        modal.appendChild(modalFooter);
+
+        const applyButton = document.createElement('button');
+        applyButton.className = 'ms-settings-apply-button';
+        applyButton.textContent = '適用';
+        modalFooter.appendChild(applyButton);
+
         // --- Event Listeners ---
+        applyButton.addEventListener('click', () => {
+            saveSettings();
+            window.location.reload();
+        });
+
         function openModal() {
             modalOverlay.style.display = 'flex';
         }
