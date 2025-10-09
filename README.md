@@ -1,5 +1,8 @@
 # Moocs Sharp
 
+このリポジトリは次のリポジトリへ移動します。
+https://github.com/iniad-mdx/mikoto-moocs-sharp/
+
 INIAD Moocs をより便利に、そして楽しく利用するためのユーザースクリプトです。
 
 ## ✨ 主な機能
