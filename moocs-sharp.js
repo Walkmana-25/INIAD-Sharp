@@ -131,6 +131,11 @@
 
   .ms-style-enabled section.content.container-fluid {
     padding-top: 5px;
+    max-height: 70vh;
+  }
+  
+  .ms-layout-enabled ul.pager {
+    margin: 0px;
   }
 
   .ms-layout-enabled .flex-divider {
